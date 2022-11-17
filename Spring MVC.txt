@@ -52,8 +52,8 @@
     우리가 작성한 Controller 객체 등록
     URL 매핑 주소 등록.
     
-------------------------------------------------------------------
- ■■■ Spring MVC 프로젝트 관련 실습 (mvcApp01)■■■
+---------------------------------------------------------------------------
+ ■■■ Spring MVC 프로젝트 관련 실습 ■■■
  
 
 가장 최근에 저장한 epf 설정 읽어와 적용하기
@@ -71,7 +71,7 @@
 
 ○ 톰캣 서버 등록 및 설정
  : Apache-Tomcat 8.5 선택 및 디렉터리 경로 지정
- 포트 번호 변몇 및 URIEncording 지정
+ 포트 번호 변경 및 URIEncording 지정
   (URIEncording="UTF-8" port="8090")
 
 ○ web.xml 파일 생성
@@ -117,61 +117,265 @@
 
 ○ 이 프로젝트의 요청및 실행에 대한 처리 과정
 
-  ① 외부 요청
-    http://localhost:8090/mvcApp01/hello.action
+ ① 외부 요청
+	http://localhost:8090/mvcApp01/hello.action
 
-    ※ web.xml 관여
-       (~.action 요청 → DisoatcherServlet 등록)
-
-  ② DispatcherServlet 요청 접수
+	※ web.xml 관여
+	(~.action 요청 → DisoatcherServlet 등록)
+ ② DispatcherServlet 요청 접수
     및 사용자 요청 분석
  
 	※ dispatcher-servlet.xml
 	(/hello.action → xxx.java)
-  ③ DispatcherServlet 이 Controller (사용자 정의 Controller) 지정
-   → Controller 의 특정 메소드 호출(액션 처리, ModelAndView 반환)
-      사용자의 요청에 따른 액션 처리
-      결과 데이터가 들어있는 모델 객체 준비
+ ③ DispatcherServlet 이 Controller (사용자 정의 Controller) 지정
+  → Controller 의 특정 메소드 호출(액션 처리, ModelAndView 반환)
+     사용자의 요청에 따른 액션 처리
+     결과 데이터가 들어있는 모델 객체 준비
      뷰 정보 반환 
-      (JSP 페이지 정보  - 객체가 아닌 View 페이지 이름(경로) 반환)
+     (JSP 페이지 정보  - 객체가 아닌 View 페이지 이름(경로) 반환)
 
-   ④ 뷰(View) 페이지에서 최종 웹페이지를 작성(동적으로 그려내기)
-   → 페이지를 그리는 과정에서 JSP 페이지 내에서
-       EL, JSTL 등의 표기 사용 가능.
-   ⑤ 최종적으로 그려진 html 문서가 클라이언트의 브라우저로 전달되면서
-      응답 완료~!!!
-------------------------------------------------------------------
- ■■■ Spring MVC 프로젝트 관련 실습(mvcApp02) ■■■
- 
+④ 뷰(View) 페이지에서 최종 웹페이지를 작성(동적으로 그려내기)
+  → 페이지를 그리는 과정에서 JSP 페이지 내에서
+      EL, JSTL 등의 표기 사용 가능.
+⑤ 최종적으로 그려진 html 문서가 클라이언트의 브라우저로 전달되면서
+   응답 완료~!!!
+---------------------------------------------------------------------------
 
-가장 최근에 저장한 epf 설정 읽어와 적용하기
+■■■ Spring MVC 프로젝트 관련 실습 (mvcApp02) ■■■
+
+※ 가장 최근에 저장한 epf 설정 읽어와 적용하기
 
 ○ Perspective
- : JavaEE
- 
-○ 다이나믹 웹 프로젝트 생성
- → STS (Spring Tool shtee) 사용 시 Spring Project(또는 스프링 레거시 프로젝트)
- : mvcApp02
+   : JavaEE
 
+○ 다이나믹 웹 프로젝트 생성
+   → STS 사용 시 Spring Project(또는 스프링 레거시 프로젝트)
+   : mvcApp02
 
 ○ web.xml 파일 생성 / 라이브러리 등록
-
- : 윈도우 탐색기 상에서
-  샘플 mvcApp00 의 src와 WebContent 디렉터리 
-  복사해서 현재 프로젝트에 덮어쓰기
-
-
-
+   : 윈도우 탐색기 상에서
+     샘플 프로젝트(mvcApp00)의 src 와 WebContent 디렉터리
+     복사해서 현재 프로젝트에 덮어쓰기
+    
 ○ 물리적 파일 구성
-  - SendController.java		→ 컨트롤러(Controller)객체
-  - Send.jsp			→  뷰(View) 객체
-  - ReceiveController.java	→ 컨트롤러(Controller)객체
-  - Receive.jsp			→  뷰(View) 객체
+   - SendController.java	→ 컨트롤러(Controller) 객체
+   - Send.jsp			→ 뷰(View) 객체
+   - ReceiveController.java	→ 컨트롤러(Controller) 객체
+   - Receive.jsp		→ 뷰(View) 객체
 
-  - dispatcher-servlet.xml	→ 사용자 정의 컨트롤러 등록
-				    및 URL 매핑 주소 등록
-  - web.xml			→ Spring MVC Framework
+   - dispatcher-servlet.xml	→ 사용자 정의 컨트롤러 등록
+				   및 URL 매핑 주소 등록
+   - web.xml			→ Spring MVC Framework
 				   Front Controller
 
 ○ 사용자 최초 요청 주소
-    http://localhost:8090/mvcApp02/send.action
+   http://localhost:8090/mvcApp02/send.action
+
+------------------------------------------------------------------
+
+■■■ Spring MVC 프로젝트 관련 실습 (mvcApp03) ■■■
+2022-11-14
+※ 가장 최근에 저장한 epf 설정 읽어와 적용하기
+
+○ Perspective
+   : JavaEE
+
+○ 다이나믹 웹 프로젝트 생성
+   → STS 사용 시 Spring Project(또는 스프링 레거시 프로젝트)
+   : mvcApp03
+
+○ web.xml 파일 생성 / 라이브러리 등록
+   : 윈도우 탐색기 상에서
+     샘플 프로젝트(mvcApp00)의 src 와 WebContent 디렉터리
+     복사해서 현재 프로젝트에 덮어쓰기
+    
+○ 실습 성격
+  : 데이터 송수신 실습(Spring MVC 버전)
+    JDBC 모듈 추가 실습
+    SimpleDriverDataSource 활용
+
+○ 기능 구현
+  : 사용자로부터 이름, 전화번호 데이터를 입력받아
+    입력받은 내용을 데이터베이스에 저장.
+    이름, 전화번호 항목을 데이터베이스로 부터 읽어
+    화면에 출력하여 전달.
+
+○ 사전 작업
+  - TBL_MEMBERLIST 데이블 생성 및 활용
+  - MEMBERLISTSEQ 시퀀스 생성 및 활용
+  - 샘플 데이터 입력 및 활용
+
+○  화면 구성
+   이름 [          ] 		→ <input type="text">
+   전화 [          ] 		→ <input type="text">
+   <회원 추가>			→ <button type="button">
+
+   전체 인원 수  : 2 명  	→ <p>...<p>
+ ------------------------------	→ <table> 혹은 <div>
+   번호 이름    전화번호
+    1   정영준  010-1111-1111
+    2   조현하  010-2222-2222
+ ------------------------------
+
+
+○ 물리적 파일 구성
+   - mvcApp03_scott.sql 	→ 데이터베이스 관련 객체 준비.
+   - MemberDTO.java			→ 사용자 정의 자료형 객체 활용.
+   - IMemberDAO.java 		→ 인터페이스 (구멍)
+   - MemberDAO.java			→ 데이터베이스 액션 처리 전용 객체.
+				   ※ Connection  객체에 대한 의존성 주입 준비.
+					→ setter 활용.
+
+  - MemberListController.java	→ 사용자 정의 컨트롤러 객체 활용.
+ 				   리스트 출력 액션 처리.
+				   ※ DAO 객체에 대한 의존성 주입 준비.
+					→ setter 활용.
+
+  - MemberList.jsp		→ 회원 명단 출력 뷰(View)
+				   회원 데이터 추가 폼에 대한
+				   레이아웃(화면) 구성
+
+  - MemberInsertController.java → 사용자 정의 컨트롤러 객체 활용.
+				   회원 데이터 추가 액션 처리.
+				   ※ DAO 객체에 대한 의존성 주입 준비.
+					→ setter 활용.
+
+  - dispatcher-servlet.xml 	→ 사용자 정의 컨트롤러 객체 등록.
+				   사용자 요청 URL 매핑 주소 등록.
+			  	   SimpleDriverDataSource 객체 등록.
+				   의존 객체 주입 설정.
+				   DAO 객체 등록.
+
+  - web.xml			→ Spring MVC Framework
+				   Front Controller
+				   DispatcherServlet 객체 등록
+				   WebContent > WEB-INF
+
+○ 사용자 최초 요청 주소
+   http://localhost:8090/mvcApp03/memberlist.action
+
+
+가이드라인 - 시간을 효율적으로 활용
+		정책 확정 (잦은 소통)
+		
+------------------------------------------------------------------
+
+■■■ Spring MVC 프로젝트 관련 실습 (mvcApp04) ■■■
+2022-11-15
+※ 가장 최근에 저장한 epf 설정 읽어와 적용하기
+
+○ Perspective
+   : JavaEE
+
+○ 다이나믹 웹 프로젝트 생성
+   → STS 사용 시 Spring Project(또는 스프링 레거시 프로젝트)
+   : mvcApp04
+
+○ web.xml 파일 생성 / 라이브러리 등록
+   : 윈도우 탐색기 상에서
+     샘플 프로젝트(mvcApp00)의 src 와 WebContent 디렉터리
+     복사해서 현재 프로젝트에 덮어쓰기
+    
+○ 실습 성격
+  : 직원 관리 프로그램(Spring MVC 버전)
+    JDBC 모듈 추가 실습
+    SimpleDriverDataSource 활용		
+		
+○ 기능 구현
+   - 직원 데이터 입력, 출력, 수정, 삭제 기능 구현.
+   - 지역 데이터 입력, 출력, 수정, 삭제 기능 구현.
+   - 부서 데이터 입력, 출력, 수정, 삭제 기능 구현.
+   - 직위 데이터 입력, 출력, 수정, 삭제 기능 구현.
+   - 로그인 및 로그아웃 기능 구현
+     → 관리자 및 일반직원 로그인 구분하여 처리
+   ==> Spring MVC, JSP/Servlet, HTML, CSS, Javascript, AJAX
+       , jQuery, EL, JSTL 표현 등 활용.
+
+○ 사전 작업   
+   - 주요 테이블 생성 및 준비
+     ·EMPLOYEE      직원
+     ·REGION        지역
+     ·DEPARTMENT    부서
+     ·POSITION      직위
+   - 주요 시퀀스 생성 및 활용
+     ·EMPLYEESEQ
+     ·REGIONSEQ
+     ·DEPARTMENTSEQ
+     ·POSITIONSEQ
+   - 샘플 데이터 입력 및 확용		
+		
+		
+○ 물리적 파일 구성
+  - #00. mvcApp04_scott.sql        → 데이터베이스 관련 객체 준비
+
+  - #01. Employee.java            → DTO 개념. 직원 정보 자료형 클래스 활용.
+  - #02. Department.java          → DTO 개념. 부서 정보 자료형 클래스 활용.
+  - #03. Region.java              → DTO 개념. 지역 정보 자료형 클래스 활용.
+  - #04. Position.java            → DTO 개념. 직위 정보 자료형 클래스 활용.
+
+  - #05. IEmployeeDAO.java            → 인터페이스.
+  - #06. IDepartmentDAO.java          → 인터페이스.
+  - #07. IRegionDAO.java              → 인터페이스.
+  - #08. IPositionDAO.java            → 인터페이스.
+
+  - #09. EmployeeDAO.java           → 데이터베이스 액션 처리 클래스.
+		                             직원 데이터 입력, 출력, 수정, 삭제.
+		                             Connection 객체에 대한 의존성 주입을 위한 준비.
+		                             (인터페이스 자료형 / setter 구성)
+  - #10. DepartmentDAO.java         → 데이터베이스 액션 처리 클래스.
+		                             부서 데이터 입력, 출력, 수정, 삭제.
+		                             Connection 객체에 대한 의존성 주입을 위한 준비.
+		                             → 인터페이스 형태의 속성 구성(DataSource)
+					     → setter 메소드 정의.
+  - #11. RegionDAO.java                → 데이터베이스 액션 처리 클래스.
+		                             지역 데이터 입력, 출력, 수정, 삭제.
+		                             Connection 객체에 대한 의존성 주입을 위한 준비.
+		                             (인터페이스 자료형 / setter 구성)
+  - #12. PositionDAO.java              → 데이터베이스 액션 처리 클래스.
+		                             직위 데이터 입력, 출력, 수정, 삭제.
+		                             Connection 객체에 대한 의존성 주입을 위한 준비.
+		                             (인터페이스 자료형 / setter 구성)	
+
+  - #13. EmployeeMeun.jsp		→ 메인 메뉴를 제공하는 뷰(View) 페이지.
+					   로그인 후 접근 페이지이기 때문에                     
+					   로그아웃에 대한 처리 가능한 컨트롤 구성.
+
+
+  - #14. EmployeeList.jsp		→ 직원 정보 출력 뷰(View) 페이지.
+  - #14-1. munuStyle.css		→ 메뉴 스타일 구성.
+  - #14-2. mainStyle.css		→ 메인 스타일 구성.
+
+
+  - #15.EmployeeListController.java    → 
+
+  - #16. web.xml
+  - #17. dispatcher-servlet.xml
+
+  - #18. applicationContext.xml
+
+직원추가버튼
+  - #19. EmployeeInsertFormController.java 
+  - #20. EmployeeInsertForm.jsp 
+
+  - #21. AjaxController.java
+  - #22. Ajax.jsp
+
+  - #23. EmployeeInsertColtroller.java      	-Employeelist 컨트롤러 요청하기
+
+  - #24. EmployeeUpdateFormController.java
+  - #25. EmployeeUpdateFrom.jsp
+
+
+  - #26. EmployeeUpdateController.java		-Employeelist 컨트롤러 요청하기
+
+  - #27. EmployeeDeleteController.java  	-Employeelist 컨트롤러 요청하기
+
+
+
+
+
+
+○ 사용자 최초 요청 주소
+   htttp://localhost:8090/mvcApp04/employeelist.action
+   
+------------------------------------------------------------------

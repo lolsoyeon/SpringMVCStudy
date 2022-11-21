@@ -28,11 +28,11 @@ public class EmployeeDAO implements IEmployeeDAO
 		this.dataSource = dataSource;
 	}
 	
-	// 직원 리스트 OK
+	// 직원 리스트 전체 출력 OK
 	@Override
 	public ArrayList<Employee> list() throws SQLException
 	{
-		ArrayList<Employee> em = new ArrayList<Employee>();
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 		
 		Connection conn = dataSource.getConnection();
 		
@@ -48,41 +48,41 @@ public class EmployeeDAO implements IEmployeeDAO
 		
 		while (rs.next())
 		{
-			 Employee dto = new Employee();
+			 Employee employee = new Employee();
 			 
-			 dto.setEmployeeId(rs.getString("EMPLOYEEID"));
-			 dto.setName(rs.getString("NAME"));
-			 dto.setSsn(rs.getString("SSN"));
-			 dto.setBirthday(rs.getString("BIRTHDAY"));
-			 dto.setLuner(rs.getInt("LUNAR"));
-			 dto.setLunarName(rs.getString("LUNARNAME"));
-			 dto.setTelephone(rs.getString("TELEPHONE"));
-			 dto.setDepartmentId(rs.getString("DEPARTMENTID"));
-			 dto.setDepartmentName(rs.getString("DEPARTMENTNAME"));
-			 dto.setPositionId(rs.getString("POSITIONID"));
-			 dto.setPositionName(rs.getString("POSITIONNAME"));
-			 dto.setRegionId(rs.getString("REGIONID"));
-			 dto.setRegionName(rs.getString("REGIONNAME"));
-			 dto.setBasicPay(rs.getInt("BASICPAY"));
-			 dto.setExtraPay(rs.getInt("EXTRAPAY"));
-			 dto.setPay(rs.getInt("PAY"));
-			 dto.setGrade(rs.getInt("GRADE"));
+			 employee.setEmployeeId(rs.getString("EMPLOYEEID"));
+			 employee.setName(rs.getString("NAME"));
+			 employee.setSsn(rs.getString("SSN"));
+			 employee.setBirthday(rs.getString("BIRTHDAY"));
+			 employee.setLunar(rs.getInt("LUNAR"));
+			 employee.setLunarName(rs.getString("LUNARNAME"));
+			 employee.setTelephone(rs.getString("TELEPHONE"));
+			 employee.setDepartmentId(rs.getString("DEPARTMENTID"));
+			 employee.setDepartmentName(rs.getString("DEPARTMENTNAME"));
+			 employee.setPositionId(rs.getString("POSITIONID"));
+			 employee.setPositionName(rs.getString("POSITIONNAME"));
+			 employee.setRegionId(rs.getString("REGIONID"));
+			 employee.setRegionName(rs.getString("REGIONNAME"));
+			 employee.setBasicPay(rs.getInt("BASICPAY"));
+			 employee.setExtraPay(rs.getInt("EXTRAPAY"));
+			 employee.setPay(rs.getInt("PAY"));
+			 employee.setGrade(rs.getInt("GRADE"));
 			 
-			 em.add(dto);
+			 employeeList.add(employee);
 			 
 		}
 		rs.close();
 		pstmt.close();
 		conn.close();
 		
-		return em;
+		return employeeList;
 	}
 
-	// 지역 리스트 ok
+	// 지역 리스트 전체 출력 sqlOK
 	@Override
 	public ArrayList<Region> regionList() throws SQLException
 	{
-		ArrayList<Region> re = new ArrayList<Region>();
+		ArrayList<Region> regionList = new ArrayList<Region>();
 		
 		Connection conn = dataSource.getConnection();
 		
@@ -100,7 +100,7 @@ public class EmployeeDAO implements IEmployeeDAO
 			region.setRegionName(rs.getString("REGIONNAME"));
 			region.setDelCheck(rs.getInt("DELCHECK"));
 			
-			re.add(region);
+			regionList.add(region);
 			
 		}
 		rs.close();
@@ -108,13 +108,14 @@ public class EmployeeDAO implements IEmployeeDAO
 		conn.close();
 				
 				
-		return re;
+		return regionList;
 	}
 
+	// 부서 리스트 전체 출력
 	@Override
 	public ArrayList<Department> departmentList() throws SQLException
 	{
-		ArrayList<Department> de = new ArrayList<Department>();
+		ArrayList<Department> departmentList = new ArrayList<Department>();
 		Connection conn = dataSource.getConnection();
 		
 		String sql ="SELECT DEPARTMENTID, DEPARTMENTNAME, DELCHECK"
@@ -125,26 +126,27 @@ public class EmployeeDAO implements IEmployeeDAO
 		ResultSet rs = pstmt.executeQuery();
 		while (rs.next())
 		{
-			Department dt = new Department();
+			Department department = new Department();
 			
-			dt.setDepartmentId(rs.getString("DEPARTMENTID"));
-			dt.setDepartmentName(rs.getString("DEPARTMENTNAME"));
-			dt.setDelCheck(rs.getInt("DELCHECK"));
+			department.setDepartmentId(rs.getString("DEPARTMENTID"));
+			department.setDepartmentName(rs.getString("DEPARTMENTNAME"));
+			department.setDelCheck(rs.getInt("DELCHECK"));
 			
-			de.add(dt);
+			departmentList.add(department);
 			
 		}
 		rs.close();
 		pstmt.close();
 		conn.close();
 		
-		return de;
+		return departmentList;
 	}
 
+	// 직위 리스트 전체 출력
 	@Override
 	public ArrayList<Position> positionList() throws SQLException
 	{
-		ArrayList<Position> po = new ArrayList<Position>();
+		ArrayList<Position> positionList = new ArrayList<Position>();
 		Connection conn = dataSource.getConnection();
 		
 		String sql ="SELECT POSITIONID, POSITIONNAME"
@@ -155,14 +157,14 @@ public class EmployeeDAO implements IEmployeeDAO
 		ResultSet rs = pstmt.executeQuery();
 		while (rs.next())
 		{
-			Position ps = new Position();
+			Position position = new Position();
 			
-			ps.setPositionId(rs.getString("POSITIONID"));
-			ps.setPositionName(rs.getString("POSITIONNAME"));
-			ps.setMinBasicPay(rs.getInt("MINBASICPAY"));
-			ps.setDelCheck(rs.getInt("DELCHECK"));
+			position.setPositionId(rs.getString("POSITIONID"));
+			position.setPositionName(rs.getString("POSITIONNAME"));
+			position.setMinBasicPay(rs.getInt("MINBASICPAY"));
+			position.setDelCheck(rs.getInt("DELCHECK"));
 			
-			po.add(ps);
+			positionList.add(position);
 			
 			
 		}
@@ -170,7 +172,7 @@ public class EmployeeDAO implements IEmployeeDAO
 		pstmt.close();
 		conn.close();
 		
-		return po;
+		return positionList;
 	}
 	// 직위 아이디에 따른 최소 기본급 확인/검색
 	@Override
@@ -223,7 +225,7 @@ public class EmployeeDAO implements IEmployeeDAO
 		pstmt.setString(3, employee.getSsn2());
 		pstmt.setString(4, employee.getSsn2());
 		pstmt.setString(5, employee.getBirthday());
-		pstmt.setInt(6, employee.getLuner());
+		pstmt.setInt(6, employee.getLunar());
 		pstmt.setString(7, employee.getTelephone());
 //		pstmt.setString(8, employee.getDepartmentId());
 		pstmt.setInt(8, Integer.parseInt(employee.getDepartmentId()));
@@ -234,11 +236,19 @@ public class EmployeeDAO implements IEmployeeDAO
 		pstmt.setInt(11, employee.getBasicPay());
 		pstmt.setInt(12, employee.getExtraPay());
 		
+		
+		// 까먹기좋으니 잊지말자~!!!!
+		result = pstmt.executeUpdate();
+		
 		pstmt.close();
 		conn.close();
 		
 		return result;
 	}
+	
+	
+	
+	
 	// 직원 데이터 삭제
 	@Override
 	public int remove(String employeeId) throws SQLException
@@ -260,7 +270,7 @@ public class EmployeeDAO implements IEmployeeDAO
 		
 		return result;
 	}
-	// 직원 데이터 수정 13개 파라미터 5,6,7  
+	// 직원 데이터 수정 13개 파라미터 5,6,7,13
 	@Override
 	public int modify(Employee employee) throws SQLException
 	{
@@ -270,16 +280,16 @@ public class EmployeeDAO implements IEmployeeDAO
 	      Connection conn = dataSource.getConnection();
 	      
 	      String sql = "UPDATE EMPLOYEE"
-	              	  + " SET NAME = ?, BIRTHDAY = TO_DATE(?, 'YYYY-MM-DD'), LUNAR = ?, TELEPHONE = ?"
-	                  + ", DEPARTMENTID = ?, POSITIONID = ?, REGIONID = ?"
-	                  + ", BASICPAY = ?, EXTRAPAY = ?"
-	                  + ", SSN1 = ?, SSN2 = CRYPTPACK.ENCRYPT(?, ?)"
-	                  + " WHERE EMPLOYEEID = ?";
+					+ " SET NAME=?, BIRTHDAY=TO_DATE(?,'YYYY-MM-DD'), LUNAR=?"
+					+ ", TELEPHONE=?, DEPARTMENTID=?, POSITIONID=?, REGIONID=?"
+					+ ", BASICPAY=?, EXTRAPAY=?, SSN1=?, SSN2=CRYPTPACK.ENCRYPT(?,?)"
+					+ " WHERE EMPLOYEEID=?";
 	      
 	      PreparedStatement pstmt = conn.prepareStatement(sql);
+	      
 	      pstmt.setString(1, employee.getName());
 	      pstmt.setString(2, employee.getBirthday());
-	      pstmt.setInt(3, employee.getLuner());
+	      pstmt.setInt(3, employee.getLunar());
 	      pstmt.setString(4, employee.getTelephone());
 	      pstmt.setInt(5, Integer.parseInt(employee.getDepartmentId()));
 	      pstmt.setInt(6, Integer.parseInt(employee.getPositionId()));
@@ -300,7 +310,9 @@ public class EmployeeDAO implements IEmployeeDAO
 
 	}
 
-	// 아이디로 직원 검색 11개ok
+	
+	/*
+	// 아이디로 직원 검색 11개 sqlok
 	@Override
 	public Employee searchId(String employeeId) throws SQLException
 	{
@@ -326,7 +338,7 @@ public class EmployeeDAO implements IEmployeeDAO
 				 dto.setName(rs.getString("NAME"));
 				 dto.setSsn1(rs.getString("SSN1"));
 				 dto.setBirthday(rs.getString("BIRTHDAY"));
-				 dto.setLuner(rs.getInt("LUNAR"));
+				 dto.setLunar(rs.getInt("LUNAR"));
 				 dto.setTelephone(rs.getString("TELEPHONE"));
 				 dto.setDepartmentId(rs.getString("DEPARTMENTID"));
 				 dto.setPositionId(rs.getString("POSITIONID"));
@@ -342,6 +354,72 @@ public class EmployeeDAO implements IEmployeeDAO
 			return dto;
 
 	}
+	*/
+	// 아이디로 직원 검색 11개 sqlok
+	@Override
+	public Employee searchId(String employeeId) throws SQLException
+	{
+		Employee employee = new Employee();
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT EMPLOYEEID, NAME, SSN1"
+		 		+ ", TO_CHAR(BIRTHDAY, 'YYYY-MM-DD') AS BIRTHDAY, LUNAR"
+		 		+ ", TELEPHONE, DEPARTMENTID, POSITIONID, REGIONID"
+		 		+ ", BASICPAY, EXTRAPAY"
+		 		+ " FROM EMPLOYEE"
+		 		+ " WHERE EMPLOYEEID= ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, Integer.parseInt(employeeId));
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{			
+			employee.setEmployeeId(rs.getString("EMPLOYEEID"));
+			employee.setName(rs.getString("NAME"));
+			employee.setSsn1(rs.getString("SSN1"));
+			employee.setBirthday(rs.getString("BIRTHDAY"));
+			employee.setLunar(rs.getInt("LUNAR"));
+			employee.setTelephone(rs.getString("TELEPHONE"));
+			employee.setDepartmentId(rs.getString("DEPARTMENTID"));
+			employee.setPositionId(rs.getString("POSITIONID"));
+			employee.setRegionId(rs.getString("REGIONID"));
+			employee.setBasicPay(rs.getInt("BASICPAY"));
+			employee.setExtraPay(rs.getInt("EXTRAPAY"));
+		}
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return employee;
+	}
+
+	// 특정 employeeId 의 ssn2 가 db와 일치 할경우 1 아닐 경우 0을 반환하는 메소드
+	@Override
+	public int login(String employeeId, String ssn2) throws SQLException
+	{
+		int result = 0;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT COUNT(*)"
+				+ " FROM EMPLOYEE"
+				+ " WHERE EMPLOYEEID = ? AND SSN2= CRYPTPACK.ENCRYPT(?, ?)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		pstmt.setInt(1, Integer.parseInt(employeeId));
+		pstmt.setString(2, ssn2);
+		pstmt.setString(3, ssn2);
+		
+		while (rs.next())
+		{
+			result = Integer.parseInt(rs.getString("COUNT"));
+		}
+		
+		return result;
+	}
+	
 	
 	
 

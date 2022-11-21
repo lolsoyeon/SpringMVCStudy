@@ -39,7 +39,7 @@ public class Employee
 	private String regionId, regionName;
 	//-- 지역 아이디, 지역명
 	
-	private int luner;
+	private int lunar;
 	//-- 양력0, 음력1
 	
 	private String ssn1, ssn2;
@@ -172,14 +172,14 @@ public class Employee
 		this.regionName = regionName;
 	}
 
-	public int getLuner()
+	public int getLunar()
 	{
-		return luner;
+		return lunar;
 	}
 
-	public void setLuner(int luner)
+	public void setLunar(int lunar)
 	{
-		this.luner = luner;
+		this.lunar = lunar;
 	}
 
 	public String getSsn1()

@@ -114,7 +114,8 @@ public class DepartmentDAO implements IDepartmentDAO
 		pstmt.setInt(2, Integer.parseInt(department.getDepartmentId()));
 		// pstmt.setString(2, department.getDepartmentId());
 		
-		// 이거 많이빠진다...........~!!!!!
+		
+		// check~!!
 		result = pstmt.executeUpdate();
 		
 		pstmt.close();

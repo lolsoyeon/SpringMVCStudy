@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-public class AjaxController implements Controller
+public class AjaxController2 implements Controller
 {
 	private IEmployeeDAO dao;
 	
@@ -31,20 +31,19 @@ public class AjaxController implements Controller
 		
 		// 이전 페이지(EmployeeInsertForm.jsp)로부터 데이터 수신
 		
-		String positionId = request.getParameter("positionId");
+		String employeeId = request.getParameter("epmloyeeId");
+		String ssn2 = request.getParameter("ssn2");
 		
 		int result = 0;
 		
 		try
 		{
-			result = dao.getMinBasicPay(positionId);
-			
-			// System.out.println(result);
+			result = dao.login(employeeId, ssn2);
 			
 			mav.addObject("result", result);
 			
-//			mav.setViewName("/WEB-INF/view/Ajax.jsp");
-			mav.setViewName("Ajax");
+//			mav.setViewName("/WEB-INF/view/Ajax2.jsp");
+			mav.setViewName("Ajax2");
 			
 		} catch (Exception e)
 		{

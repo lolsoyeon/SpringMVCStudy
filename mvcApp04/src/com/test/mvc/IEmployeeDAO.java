@@ -23,4 +23,5 @@ public interface IEmployeeDAO
 	public int remove(String employeeId) throws SQLException;
 	public int modify(Employee employee) throws SQLException;
 	public Employee searchId(String employeeId) throws SQLException;
+	public int login(String employeeId, String ssn2) throws SQLException;
 }

@@ -90,7 +90,8 @@ public class PositionDAO implements IPositionDAO
 		String sql = "DELETE FROM POSITION WHERE POSITIONID = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setString(1, positionId);
+//		pstmt.setString(1, positionId);
+		pstmt.setInt(1, Integer.parseInt("positionId"));
 		
 		result = pstmt.executeUpdate();
 		
@@ -107,13 +108,13 @@ public class PositionDAO implements IPositionDAO
 		Connection conn = dataSource.getConnection();
 		
 		String sql = "UPDATE POSITION"
-				+ " SET POSITIONNAME = ? , MINBASICPAY = ?"
-				+ " WHERE POSITIONID = ?";
-
+					+ " SET POSITIONNAME = ? , MINBASICPAY = ?"
+					+ " WHERE POSITIONID = ?";
+		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, position.getPositionName());
 		pstmt.setInt(2, position.getMinBasicPay());
-		pstmt.setString(3, position.getPositionId());
+		pstmt.setInt(3, Integer.parseInt(position.getPositionId()));
 		
 		result = pstmt.executeUpdate();
 		

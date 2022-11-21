@@ -1,6 +1,6 @@
 
 /*==============================================
- 	EmployeeListController.java
+ 	#15.EmployeeListController.java
  	- 사용자 정의 컨트롤러 클래스
  	- 리스트 페이지 요청에 대한 액션 처리
  	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비.
@@ -46,7 +46,9 @@ public class EmployeeListController implements Controller
 			
 			mav.addObject("employeeList", employeeList);
 			
-			mav.setViewName("WEB-INF/view/EmployeeList.jsp");
+//			mav.setViewName("WEB-INF/view/EmployeeList.jsp");
+			// ↓ ViewResolver 등록후 바뀐 코드
+			mav.setViewName("EmployeeList");
 			
 		} catch (Exception e)
 		{

@@ -11,10 +11,39 @@
 <meta charset="UTF-8">
 <title>EmployeeList.jsp</title>
 
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-<link rel="stylesheet" type="text/css" href="<%=cp %>/css/mainStyle.css">
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="<%=cp %>/js/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+	// $(document).ready();
+	// jquery();
+	$(function()
+	{
+		 // 수정 버튼 클릭시 액션 처리
+		$(".updateBtn").click(function()
+		{
+// 			alert("수정버튼 클릭");
+// 			alert("수정버튼 클릭 : " + $(this).val());
+			$(location).attr("href", "employeeupdateform.action?employeeId=" + $(this).val());
+			
+		});
+		 
+		 // 삭제 버튼 클릭시 액션 처리
+		$(".deleteBtn").click(function()
+		{
+// 			alert("삭제버튼 클릭");
+// 			alert("삭제버튼 클릭" + $(this).val());
+			
+		});
+	});
+
+</script>
 </head>
 <body>
 
@@ -25,12 +54,13 @@
    (일반 직원이 접근하는 직원 리스트 출력 페이지는 EmpList.jsp 로 구성할 예정)
 ------------------------------------------------------------------------------->
 
-<div>
+<div align="left">
 
 	<!-- 메뉴 영역 -->
 	<div>
-		<c:import url="EmployeeMeun.jsp"></c:import>
+		<c:import url="EmployeeMenu.jsp"></c:import>
 	</div>
+	<br>
 	
 	<!-- 콘텐츠 영역 -->
 	<div id="content">
@@ -167,10 +197,13 @@
 		 	
 		 		
 		 	<td>
-		 		<button type="button" class="btn btn-primary control updateBtn">수정</button>
+		 		<button type="button" class="btn btn-primary control updateBtn" 
+		 		value="${employee.employeeId }">수정</button>
+		 		<!-- onclick="location.href='employeeupdateform.action?id=${employee.employeeId }'">수정</button> -->
 		 	</td>
 		 	<td>
-		 		<button type="button" class="btn btn-primary control deleteBtn">삭제</button>
+		 		<button type="button" class="btn btn-primary control deleteBtn" 
+		 		value="${employee.employeeId }">삭제</button>
 		 	</td>
 		 	
 		 </tr>

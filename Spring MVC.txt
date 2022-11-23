@@ -34,7 +34,7 @@
  - DispatcherServlet  → 특정 View 객체에 Model 객체를 넘겨주고
 						 처리된 결과 출력.
 	※ ModelAndView 객체
-	: View 객체 정보와 결과값이 들어있는 객체
+	   : View 객체 정보와 결과값이 들어있는 객체
 						
 						
 4. Spring MVC 에서 우리가 해야할 일
@@ -346,7 +346,7 @@
   - #14-2. mainStyle.css		→ 메인 스타일 구성.
 
 
-  - #15.EmployeeListController.java    → 
+  - #15. EmployeeListController.java    
 
   - #16. web.xml
   - #17. dispatcher-servlet.xml
@@ -362,16 +362,43 @@
 
   - #23. EmployeeInsertColtroller.java      	-Employeelist 컨트롤러 요청하기
 
+
+------------------------------------------------
+  - #24. EmployeeUpdateFormController_1.java    내가 구성해본것과 비교해보기~!
+  - #25. EmployeeUpdateFrom_1.jsp
+  - #26. EmployeeUpdateController_1.java		
+------------------------------------------------
+
   - #24. EmployeeUpdateFormController.java
   - #25. EmployeeUpdateFrom.jsp
-
-
   - #26. EmployeeUpdateController.java		-Employeelist 컨트롤러 요청하기
+
 
   - #27. EmployeeDeleteController.java  	-Employeelist 컨트롤러 요청하기
 
+  
+  - #28. LoginFormController.java
+  - #29. LoginForm.jsp
+
+  - #30. LoginController.java
+
+  - #31. LogoutController.java
 
 
+  - #32. EmpListController.java
+
+  - #33. EmpList.jsp
+
+  - #34. RegionListController.java
+
+  - #35. RegionList.jsp
+
+
+  - #36. RegionInsertFormController.java
+  - #37. RegionInsertForm.jsp
+
+  - #38. RegionAjaxController.java
+  - #39. RegionAjax.jsp
 
 
 

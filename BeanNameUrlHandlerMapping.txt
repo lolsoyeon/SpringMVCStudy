@@ -1,0 +1,112 @@
+<!-- 『BeanNameUrlHandlerMapping』 -->
+							┌이거 한번 읽어봐 하고 책을 건넷다
+	<bean id="beanNameUrlHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="alwaysUseFullPath" value="true"></property>
+		<property name="order" value="1"></property>
+	</bean>
+	
+	<!-- 
+	
+	※ 『BeanNameUrlHandlerMapping』
+		HTTP 요청 URL 과 빈(bean) 의 이름을 비교하려
+		일치하는 빈을 찾아주는 역할을 수행한다,
+		빈 이름에는 『*』, 『**』,『?』 를 이용한 패턴을 넣을 수 있다.
+		(ANT 패턴)
+		하지만, 컨트롤러의 갯수가 많아지면
+		URL 정보가 XML 이나 Annotation 에 분산되어 파악이 어렵기 때문에
+		복잡한 애플리케이션에서는 사용하지 않는것이 바람직하다.
+		
+		ex)
+		<bean name="/hello*" class="HelloController" />
+		→ hello 로 시작하면 모두 여기에 매핑된다.
+		
+		<bean name="/root/**/sub" class="SubController" />
+		→ 『**』는 하나 이상의 경로를 매핑할 수 있다.
+		
+		- alwaysUseFullpath
+		: URL 매핑은 기본적으로
+		『애플리케이션 컨텍스트 패스』, 『서블릿 패스』를 제외한
+		나머지만 가지고 비교하게 된다.
+		즉, 애플리케이션이 『/test』에 배포되고,
+		DispatcherServlet URL mapping 이 『/app/*』일 경우
+		전체 URL은 『/test/app/hello』만을 대상으로 삼는다는 의미이다.
+		이는 애플리케이션이나 서블릿이 변경되어도
+		애ㅡㄹ리케이션의 매핑 구조는 영향을 받지 않게 하기 위해서이다.
+		alwaysUseFullpath 옵션을 true 로 설정하면
+		이를 해제하고 모든 URL을 대상으로 변경할 수 있다.
+		
+		- order
+		: 핸들러 매핑은 한 개 이상을 동시에 사용할 수 있다.
+		  한 개의 매핑으로 사용하는 것이 이상적 이지만,
+		  그렇지 않은 상황이 존재한다.
+		  두 개 이상의 핸들러 매핑이 등록된 상황에서
+		  URL 이 중복 매핑될 경우,
+		  『order』 프로퍼티를 통해 매핑 우선순위를 지정할 수 있다.
+		  『order』 프로퍼티의 값이 작은 매핑 전략이 높은 우선순위를 갖는다.
+	 -->
+	
+		
+	<!-- 『InternalResourceViewResolver』 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 
+	
+		※ 『InternalResourceViewResolver』
+			스프링 컨트롤러는 뷰에 의존적이지 않다.
+			컨트롤러가 지정한 뷰 이름으로부터 
+			응답 결과 화면을 생성하는 뷰 객체는 ViewResolver 가 얻어낸다.
+			스프링은 몇 가지 ViewResolver 구현 클래스를 제공하고 있는데,
+			이 중 주요 ViewResolver 구현 클래스는 다음과 같다.
+			
+			- InternalResourceViewResolver
+			  : 뷰 이름으로 부터 JSP 나 타일즈(Tiles) 연동을 위한
+			    View 객체를 반환한다.
+			    
+			- VelocityViewResolver
+			  : 뷰 이름으로 부터 Velocity 연동을 위한 View 객체를 반환한다.
+			- VelocityViewResolver 하위 객체로
+			VelocityViewResolver 와 동일한 기능을 제공하며,
+			이에 더하여 Velocity 의 레이아웃 기능을 제공한다.
+			
+			- BeanNameViewResoler
+			  : 뷰 이름과 같은 이름을 갖는 빈 객체를 View 객체로 사용한다.
+			- ResourceBundleViewResolver
+			  : 뷰 이름과 View 객체 간 매핑 정보를 저장하기 위해
+			  Resource 파일을 사용한다.
+			- XmlViewResolver
+			  : 뷰 이름과 View 객체 간 매핑 정보를 저장하기 위헤
+			  XML 파일을 사용한다.
+			  
+			  ViewResolver Interface
+			  - ViewResolver 는 뷰 이름과 지역화를 위한
+			  Locale 을 파라미터로 전달받으며,
+			  매핑되는 View 객체를 반환한다.
+			  매핑되는 View 객체가 존재하지 않으면 null 을 반환한다.
+			  
+			  ※ View 객체
+			  - 『getContentType()』 메소드는 『"text/html"』과 같은
+			  응답 결과의 컨텐츠 타입을 반환한다.
+			  『render()』 메소드는 실제로 응답결과를 생성한다.
+			  『render()』 메소드의 첫 번째 파라미터인 model 에는
+			  컨트롤러가 반환한 ModelAndView 객체의 모델 데이터가 전달된다.
+			  각각의 View 객체는 이 모델 데이터로 부터 응답 결과를 생성하는데
+			  필요한 정보를 얻어낸다.
+			  
+			  ※ InteralResourceViewResolver 설정
+			  - InteralResourceViewResolver 클래스는 JSP 나 HTML 파일과 같이
+			  웹 애플리케이션의 내부 Resource 를 이용하여 뷰를 생성하는
+			  AbstractUrlBaseView 타입의 뷰 객체를 반환한다.
+			  기본적으로 사용하는 뷰 클래스는 InteralResourceView 클래스 이다.
+			  
+			  - InteralResourceViewResolver 는
+			  컨트롤러가 지정한 뷰 이름으로부터 실제로 사용될 뷰를 선택하는데,
+			  이 때, 컨트롤러가 지정한 뷰 이름 앞뒤로
+			  prifix 프로퍼티와 suffix 프로퍼티를 추가한 값이
+			  실제로 사용될 Resource 의 경로가 된다.
+			  
+	
+	 -->
+	

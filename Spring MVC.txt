@@ -389,6 +389,7 @@
 
   - #33. EmpList.jsp
 
+지역
   - #34. RegionListController.java
 
   - #35. RegionList.jsp
@@ -400,9 +401,112 @@
   - #38. RegionAjaxController.java
   - #39. RegionAjax.jsp
 
+  - #40. RegionInsertController.java
+
+
+- #63. RegionUpdateFormController.java
+- #64. RegionUpdateForm.jsp 
+- #65. RegionUpdateController.java
+
+
+- #66.RegionDeleteController.java
+
+직위
+  - #41. PositionListController.java
+
+  - #42. PositionList.jsp
+
+  - #43. PositionInsertFormController.java
+
+  - #44. PositionInsertForm.jsp 
+
+  - #45.PositionInsertController.java
+
+  - #46.PositionAjaxController.java
+
+
+  - #55. PositionUpdateFormController.java
+  - #56. PositionUpdateForm.jsp 
+  - #57. PositionUpdateController.java	
+
+
+부서
+  - #48.DepartmentListController.java
+
+  - #49.DepartmentList.jsp 
+
+  - #50.DepartmentInsertFormController.java
+
+  - #51.DepartmentInsertForm.jsp
+
+  - #52.DepartmentInsertController.java
+
+  - #53.DepartmentAjaxController.java
+
+ + DepartmentAjax.jsp
+
+
+  - #58. PositionDeleteController.java
+
+  - #59. DepartmentUpdateFormController.java
+  - #60. DepartmentUpdateForm.jsp 
+  - #61. DepartmentUpdateController.java
+
+  - #62. DepartmentDeleteController.java
+
+
+
+  - #67. RegListController.java
+  - #68. RegList.jsp
+
+  - #69. DepListController.java
+  - #70. DepList.jsp
+
+
+  - #71. PosListController.java
+  - #72. PosList.jsp
 
 
 ○ 사용자 최초 요청 주소
    htttp://localhost:8090/mvcApp04/employeelist.action
    
 ------------------------------------------------------------------
+■■■ Spring MVC 프로젝트 과제 05 ■■■
+
+○ Perspective
+   : JavaEE
+
+○ 다이나믹 웹 프로젝트 생성
+   : mvcApp05
+
+○ 기본 환경 구성 및 라이브러리 생성
+   : mvcApp00 (우리가 임의로 만들어둔 샘플)로부터
+     src, WebContent 디렉터리 복사 & 붙여넣기
+
+○ 실습 성격
+   : 성적 관리 프로그램 (Spring MVC 버전)
+     JDBC 모듈 추가 활용
+     SimpleDriverDataSource 클래스(객체) 활용
+     (→ JDBC Driver 조금 더 쉽게 사용할 수 있게 해줌)
+     (   스프링에서 제공해주는 거!)
+
+○ 기능 구현
+   - 학생 데이터 출력, 입력, 삭제, 수정 기능 구현
+   - 학생 데이터 출력, 입력, 삭제, 수정 기능 구현
+   - 로그인 / 로그아웃 기능 구현
+     → 관리자 및 일반 직원 로그인 구분 grade = 0 => 관리자  grade = 1=> 학생
+   ==> Spring MVC, JSP/Servlet, Oracle, HTML/CSS/Javascript, AJAX
+       , jQuery, EL, JSTL 표현 등 사용
+
+○ 사전 작업 → 테이블 및 시퀀스, 주요 쿼리문 구성
+   - MEMBERLIST 		학생
+   - MEMBERRECORD		성적
+   - 
+○ 물리적 파일 구성 
+   
+  - #00. mvcApp05_scott.sql        → 데이터베이스 관련 객체 준비
+
+  - #01. Employee.java            → DTO 개념. 직원 정보 자료형 클래스 활용.
+
+
+

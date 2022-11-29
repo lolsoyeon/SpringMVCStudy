@@ -1,0 +1,124 @@
+■■■ Spring MVC 프로젝트 과제 05 ■■■
+
+○ Perspective
+   : JavaEE
+
+○ 다이나믹 웹 프로젝트 생성
+   : mvcApp05
+
+○ 기본 환경 구성 및 라이브러리 생성
+   : mvcApp00 (우리가 임의로 만들어둔 샘플)로부터
+     src, WebContent 디렉터리 복사 & 붙여넣기
+
+○ 실습 성격
+   : 성적 관리 프로그램 (Spring MVC 버전)
+     JDBC 모듈 추가 활용
+     SimpleDriverDataSource 클래스(객체) 활용
+     (→ JDBC Driver 조금 더 쉽게 사용할 수 있게 해줌)
+     (   스프링에서 제공해주는 거!)
+
+○ 기능 구현
+   - 학생 데이터 출력, 입력, 삭제, 수정 기능 구현
+   - 학생 데이터 출력, 입력, 삭제, 수정 기능 구현
+   - 로그인 / 로그아웃 기능 구현
+     → 관리자 및 일반 직원 로그인 구분 grade = 0 => 관리자  grade = 1=> 학생
+   ==> Spring MVC, JSP/Servlet, Oracle, HTML/CSS/Javascript, AJAX
+       , jQuery, EL, JSTL 표현 등 사용
+
+○ 사전 작업 → 
+  - 주요 테이블 생성 및 준비 
+    MEMBERLIST 			학생
+    MEMBERRECORD		성적
+    MEMBERLISTVIEW		
+
+  - 주요 시퀀스 생성 및 활용
+   MEMBERRECOREDSEQ
+  -  주요 쿼리문 구성
+
+○ 물리적 파일 구성 
+   
+   
+0- #00. mvcApp05_scott.sql        → 데이터베이스 관련 객체 준비
+
+0- #01. MemberList.java            → DTO 개념. 학생 정보 자료형 클래스 활용.
+0- #02. MemberRecode.java	  → DTO 개념. 학생 성적 정보 자료형 클래스 활용.
+
+0- #03. IMemberListDAO.java		→ 인터페이스
+0- #04. IMemberRecodeDAO.java		→ 인터페이스
+
+0- #05. MemberListDAO.java 		→ 데이터베이스 액션 처리 클래스.
+		                             학생 데이터 입력, 출력, 수정, 삭제.
+		                             Connection 객체에 대한 의존성 주입을 위한 준비.
+		                             (인터페이스 자료형 / setter 구성)
+0- #06.MemberRecodeDAO.java			→ 데이터베이스 액션 처리 클래스.
+		                             학생 성적 데이터 입력, 출력, 수정, 삭제.
+		                             Connection 객체에 대한 의존성 주입을 위한 준비.
+		                             (인터페이스 자료형 / setter 구성)
+
+0- #07. MemberMenu.jsp  → 메인 메뉴를 제공하는 뷰(View) 페이지
+			   로그인 후 접근 페이지이기 때문에 
+			   로그아웃에 대한 처리 가능한 컨트롤 구성
+
+0- #08. MemberView.jsp   → 학생 정보 출력 뷰(View) 페이지
+
+
+0- #09. MemberListController.java   
+
+0  - #16. web.xml
+0  - #17. dispatcher-servlet.xml
+
+학생추가버튼
+  - #18. MemberInsertFormController.java 
+  - #19. MemberInsertForm.jsp 
+
+  - #20. MemberInsertController.java      		-Memberlist 컨트롤러 요청하기
+
+수정 버튼
+  - #21. MemberUpdateFormController.java
+  - #22. MemberUpdateForm.jsp
+  - #23. MemberUpdateController.java			-Memberlist 컨트롤러 요청하기
+
+  - #24. MemberDeleteController.java			-Memberlist 컨트롤러 요청하기
+
+로그인
+  - #25. LoginFormController.java
+  - #26. LoginForm.jsp
+
+  - #27. login.css
+
+
+  - #28. LoginController.java
+
+  - #29. LogoutController.java
+
+
+
+  - #30. MemberRecodeController.java
+
+  - #31. MemberRecodeList.jsp
+
+
+수정 버튼
+  - #32. MemberRecodeUpdateFormController.java
+  - #33. MemberRecodeUpdateForm.jsp
+  - #34. MemberRecodeUpdateController.java			-memberrecodelist 컨트롤러 요청하기
+
+삭제
+  - #35. MemberRecodeDeleteController.java			-memberrecodelist 컨트롤러 요청하기
+
+학생추가버튼
+  - #36. MemberRecodeInsertFormController.java 
+  - #37. MemberRecodeInsertForm.jsp 
+
+  - #38. MemberRecodeInsertController.java      		-memberrecodelist 컨트롤러 요청하기
+
+
+
+
+
+
+○ 사용자 최초 요청 주소
+   htttp://localhost:8090/mvcApp05/memberlist.action
+
+
+

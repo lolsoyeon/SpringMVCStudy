@@ -411,16 +411,16 @@ WHERE ID = 'superman'
 
 SELECT NAME
 FROM MEMBERLIST
-WHERE ID = 'superman'
- AND PW = CRYPTPACK.ENCRYPT('1234567', '1234567')
- AND GRADE = 0;
---=>> 김태민
+WHERE ID = 'superwoman'
+ AND PW = CRYPTPACK.ENCRYPT('java002$', 'java002$')
+ AND GRADE = 1;
+--=>> 정미경
 --> 관리자로 로그인 성공~!!
 
 
 -->관리자 로그인 쿼리문 한 줄 구성
-SELECT NAME FROM MEMBERLIST WHERE ID = 'superman' AND PW = CRYPTPACK.ENCRYPT('1234567', '1234567') AND GRADE = 0
- ;
+SELECT NAME FROM MEMBERLIST WHERE ID = 'superwoman' AND PW = CRYPTPACK.ENCRYPT('java002$', 'java002$') AND GRADE = 1
+;
 
 
 

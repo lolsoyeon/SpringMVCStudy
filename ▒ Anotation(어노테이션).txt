@@ -233,7 +233,7 @@
    "session", "globalSession", "request" 이외의 scope는 무시되며
    다음의 3가지 값은 설정 할 수 있다.
 
- ·no: proxy 를 생성하지 않는다. (기본값: default)
+ ·no: proxy 를 생성하지 않는디. (기본값: default)
  ·interface :JDK Dynamic Proxy 를 이용한 proxy 생성
  ·targetClass : 클래스에 대해 프록시를 생성(CGLIB 를 이용한 proxy 생성)
 
@@ -485,224 +485,62 @@ C:\s-f-3.0.2-with-docs\spring-framework-3.0.2.RELEASE\docs\spring-framework-refe
  
 ■■■Spring MVC 관련 Annotation ■■■
    
-   ○ 개요
+  
    
-   	Spring Web MVC Framework 는 JAVA 5+ 부터 Annotation 을 제공하며,
-   	Annotation 의 사요응로 설정 파일을 간결화 하고
-   	View 페이지와 객체 또는 메소드의 매핑을 명확하게 처리할 수 있떠.
-   	
-   	※ 4개의 스테레오(stereo) 타입 어노테이션 ★
-   	
-   	- @Component
-   	 : 스테레오 타입 어노테이션의 조상
-   	- @Controller
-     : Spring MVC 에서 컨트롤러로 구성
-   	- @Service
-   	 : 역할 부여 없이 스캔 대상이 되는데... 비지니스 클래스에 사용
-   	- @Repository
-   	 : @Repository 어노테이션은 일반적으로 DAO 에 사용되며
-   	   DB Exception 을 DataAccessException 으로 변환
-   	   적재해놓는 형태
-   	
-   	
-   	※ Spring Annotation 에서 정리한 내용 추가 ++
-   	
-   	○ @Service
-   	
-   	- 개요
-   	 : @Service 를 적용한 클래스는 비지니스 로직이 들어가는 Service 로 등록이 된다.
-   	   Controller 에 있는 @Autowired 는 @Service("xxxService") 에 등록된
-   	   『xxxService』 와 변수명이 같아야 하며
-   	   Service 에 있는 @Autowired 는 @Repository("xxxDao") 에 등록된
-   	   『xxxDao』 와 변수명이 같아야한다.
-   	
-   	@Service("helloService")
-   	public class HelloServiceImpl implements HelloService
-   	{
-   		@Autowired
-   		private HelloDao helloDao;
-   		
-   		public void hello()
-   		{
-   			System.out.println("HelloServiceImpl : " + hello());
-   			helloDao.selectHello();				// ◀◀◀
-   		}
-   	}
-   	
-   	//『helloDao.selectHello();』 와 같인 @Autowired 를 활용한
-   	// 객체를 활용하여 DAO 객체를 호출한다.
-   	
-   	○ @Repository
-   	- 패키지 : org.springframework.stereotype
-   	- 버전 : spring 2.0
-   	- 개요 
-   	: @Repository 어노테이션은 일반적으로 DAO 에 사용되며
-   	DB Exception 을 DataAccessException 으로 변환하는 기능을 수ㅐㅇ한다.
-   	
-   	
-   	○ @Controller 
-   	- 패키지 : org.springframework.steredtype
-   	- 버전 :spring 2.5
-   	- 개요
-   	: Spring MVC 의 Controller 클래스 선언을 단순화 시켜준다.
-   	스프링 컨트롤러, 서블릿 등을 상속할 필요가 없으며,
-   	@Controller 로 등록된 클래스 파일에 대한 bean 을 자동으로 생성해준다.
-   	Controller 로 사용하고자는 클래스에  @Controoler 를 지정해줌ㅕㄴ
-   	COMPONENT-scan 으로 자동 등록 된다.
-   	- 추가 설정(xml)
-   	: <context:compoinent-scan base-pakage="com.*"/>
-   	- 추가 설정(java)
-   	: package com.test;
-   	
-   	import org.
-   	
-   	@Controller
-   	public class SpringC
-   	{
-   		// ...
-   	}
-   	
-   	
-   	○ @RequestMapping
-   	
-   	- 개요
-   	: @RequestMapping 어노테이션은 URL 을 class 또는 method 와
-   	mapping 시켜주는 역할을 수행한다.
-   	Annotation 을 사용하지 않을 떄 지정했던 Controller 등록을 위한
-   	URL bean 설정을 생략 할 수 있다.
-   	클래스에 하나의 URL mapping 을 할 경우
-   	class 위에 『@RequestMapping("/url")』 을 지정하며,
-   	GET 또는 POST 방식 등의 옵션을 부여 할 수 있다.
-   	해당 method가 실행 된구 , return 페이지가 별도로 정의되어 있지 않으면
-   	@RequestMapping("/url") 에서 설정된  url로 가시 돌아간다.
-   	
-   	@Controller
-   	@ReauestMapping("/com/test/*")
-   	public class HelloController
-   	{
-   		@RequestMapping(method=RequsetMethod.GET, value="go")
-   		public returntype getMethodName()
-   		{
-   			// ...
-   		}
-   	
-   	}
-   	
-   	○ @RequestParam
-   	
-   	- 개요 
-   	: @RequestParam 어노테이션은 key=value 형태로
-   	화면에서 넘어오는 파라미터를매핑된 메소드의 파라미터로 지정해준다.
-   	주로 get 방식으로 들어오는 request 에서 사용한다.
-   	
-   	@Controller 
-   	public class BolgController
-   	{
-   		// ...
-   		@Requestmapping("/editBlog")
-   		public ModelMap editBlogHandler(@RequestParam("blogId") int blogId)
-   		{
-   			blog = blogService.findBlog("blogId");
-   			return new ModelMap(blog);
-   		}
-   		
-   		// ...
-   	
-   	}
-   	// 『.../editBlog.action?blogId= 3』 과 같은 요청으로 접근 할 때
-   	// editBloghandler() 메소드의 파라미터인 blogId 에는 3이 세팅된다.
-   	// 필수 요건이 아닐 경우, @RequestParam(value="id", required="false") 와 같이
-   	// 옵션을 부여하여 사용 할 수 있다.
-   	
-   	○ @ModelAttribete
-   	
-   	- 개요
-   	: @ModelAttribete 어노테이션은 화면의 form 속성으로 넘어온 model 을
-   	매핀된 method 의 파라미터로 지정해주는 역할을 수핸한다.
-   	주로 post 타입으로 넘어오는 form 
-   	
-   	
-   	@Con
-   	public class BlogController
-   	{
-   	
-   	}
-   	
-   	○ @SesstionAttributes
-   	
-   	- 개요
-   	: @SesstionAttributes 어노테이션은 세션 상의 model 의 정보를
-   	유지하고자 할 경우 사용할 수 있다.
-   	
-   	@Controller
-   	@SesstionAttributes("blog")
-   	public class BlogController
-   	{
-   		// ...
-   		@RequestMapping("/createBlog")
-   		public ModelMap createBlogHandler()
-   		{
-   			blog = new Blog();
-   			blog.setRegData(new Data());
-   			// ...
-   			
-   			return new ModelMap(blog);
-   		}
-   		
-   		// ...
-   	
-	}
-	
-	○ @InitBinder
-	
-	-개요
-	: WebDataBinder 를 초기화 하는 메소드를 지정할 수 있는 설정을 제공한다.
-	일반적으로 WebDataBinder 는 Annotation handler 메소드의
-	command 와 form 객체 인자를 조작하는데 사용된다.
-	InitBinder 메소드가 필수적으로 변환 값을 가질 필요는 없으며,
-	일반적으로 이러 ㄴ경우에 void 를 선언한다.
-	특별한 인자는 WebDataBinder dhk WebRequest 또는 Locale 의 조합으로 이루어지며
-	이러한 조건이 만족되면 context-specifc editor를 등록하는 것이 허용된다.
-	
-	· WebDataBinder
-	: WebDataBinder 는 Web Request Parameter 를
-	  자바 빈 객체에 바인딩하는 특정한 DataBinder 이다.
-	  WebDataBinder는 웹 환경이 필요하지만,
-	  Servlet API 에 의존적이지 않다.
-	  Servlet API 에 의존적인 ServletRequestDataBinder 와 같이
-	  특정한 DataBinder 를 위한 더 많은 base class 를 제공한다.
-	
-	· RequestMapping
-	  : RequestMapping 어노테이션은 Web Request 를
-	  특정한 handler class 와 handler method 에 mapping 하는 역할을 수행한다.
-	  대응하는 handlerMapping(for type level annotation) 과
-	  handlerAdapter(for method level annotation) 가 dispatch 에 존재한다면
-	  @RequestMapping 이 처리될 것이다.
-	  
-    ·WebRequest
-      : WebRequest 는 웹 요청에 의한 Generic interface 이다.
-        주로 일반 request metdata 에 generic web request interseptors 의
-	접근을 허용하여 metadata 에 대한 처리를 하기 위한 것이지
-	request 자체를 처리하기 위한 것은 아니다.
-	  
-    ※ Annotation 기반 Controller 에서 ServletContext 구하기
-	 
-	 // ...
-	  
-	  @Controller 
-	  public class DownloadController
-	  {
-	  	@Autowired
-	  	private ServletContext sc;
-	  	
-	  	@RequestMapping
-	  	public ModelAndView download(@RequestParam("filePath" String filePath) throws Exception
-	  	{
-	  		String path = sc.getRealPath(filePath);
-	  		return new ModelAndView("common.download", "downloadFile", new File(path));
-   		}
-   		
-   	   }
    
+   
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
 
 

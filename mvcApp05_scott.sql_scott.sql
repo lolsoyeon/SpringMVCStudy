@@ -18,28 +18,9 @@ INSERT INTO MEMBERLIST(ID, PW, NAME, TEL, EMAIL)
 VALUES ('superman', CRYPTPACK.ENCRYPT('1234567', '1234567'),'김태민','010-1111-1111','ktm@test.com');
 --==>> 1 행 이(가) 삽입되었습니다.
 
-
-
--- MEMBERLIST 입력(추가)★ 쿼리문 구성
-INSERT INTO MEMBERLIST(ID, PW, NAME, TEL, EMAIL, GRADE)
-VALUES ('super', CRYPTPACK.ENCRYPT('java002$', 'java002$'),'정미경','010-2222-2222','jmk@test.com', 1);
+INSERT INTO MEMBERLIST(ID, PW, NAME, TEL, EMAIL)
+VALUES ('superwoman', CRYPTPACK.ENCRYPT('java002$', 'java002$'),'정미경','010-2222-2222','jmk@test.com');
 --==>>1 행 이(가) 삽입되었습니다.
-
-ROLLBACK;
-
-
-INSERT INTO MEMBERLIST(ID, PW, NAME, TEL, EMAIL, GRADE) VALUES ('super', CRYPTPACK.ENCRYPT('java002$', 'java002$'),'정미경','010-2222-2222','jmk@test.com', 1)
-;
-
-SELECT *
-FROM MEMBERLIST;
-
-
-
-
-
-
-
 
 
 --○ MEMBERRECODE 테이블 생성 (식별 관계, 자식)
@@ -80,17 +61,15 @@ INSERT INTO MEMBERRECODE(SCOREID, KOR, ENG, MAT, ID) VALUES(MEMBERRECOREDSEQ.NEX
 SELECT *
 FROM MEMBERLIST;
 /*
-superman	=o???	김태민	010-1111-1111	ktm@test.com	0
-superwoman	??{	정미경	010-2222-2222	jmk@test.com	1
+superman	=o???	김태민	010-1111-1111	ktm@test.com
+superwoman	??{	정미경	010-2222-2222	jmk@test.com
 */
 
-DESC MEMBERRECODE;
 
 SELECT *
 FROM MEMBERRECODE;
 /*
-2	50	50	50	superwoman
-7	90	80	70	superman
+1	90	80	70	superman
 */
 
 
@@ -98,21 +77,21 @@ FROM MEMBERRECODE;
 COMMIT;
 --==>> 커밋 완료.
 
---관리자가 조회하는  MEMBERLSIT 조회 쿼리문
+-- MEMBERLSIT 전체 조회 쿼리문
 SELECT ID, PW, NAME, TEL, EMAIL, GRADE
-FROM MEMBERLISTVIEW
+FROM MEMBERLIST
 ORDER BY NAME;
 
 -->한 줄 구성
-SELECT ID, PW, NAME, TEL, EMAIL, GRADE FROM MEMBERLISTVIEW ORDER BY NAME
+SELECT ID, PW, NAME, TEL, EMAIL, GRADE FROM MEMBERLIST ORDER BY NAME
 ;
 
 SELECT *
 FROM MEMBERLIST;
 
--- MEMBERRECODE 전체★ 조회 쿼리문
+-- MEMBERRECODE 전체 조회 쿼리문
 SELECT SCOREID, KOR, ENG, MAT, ID
-FROM MEMBERRECODE 
+FROM MEMBERRECODE
 ORDER BY SCOREID;
 
 --> 한 줄 구성
@@ -121,6 +100,8 @@ SELECT SCOREID, KOR, ENG, MAT, ID FROM MEMBERRECODE ORDER BY SCOREID
 
 
 
+
+-- 학생 정보 조회 쿼리문 구성
 SELECT M.NAME AS NAME
     , ( SELECT M.ID
         FROM MEMBERRECODE
@@ -132,7 +113,7 @@ SELECT M.NAME AS NAME
 FROM MEMBERLIST M;
 
 
--- 학생 정보 조회 뷰 생성
+-- 학생 정보 조회 뷰 생성 (뷰 이름 : MEMBERLISTVIEW)
 CREATE OR REPLACE VIEW MEMBERLISTVIEW
 AS 
 SELECT M.NAME AS NAME
@@ -142,60 +123,56 @@ SELECT M.NAME AS NAME
     , M.PW AS PW
     , M.TEL AS TEL
     , M.EMAIL AS EMAIL
-    , M.GRADE AS GRADE
+     , M.GRADE AS GRADE
 FROM MEMBERLIST M;
---==>> View MEMBERVIEW이(가) 생성되었습니다.
+--==>> View MEMBERLISTVIEW이(가) 생성되었습니다.
 
-
--- 관리자가 조회하는 전체 ★ 리스트 출력 쿼리문 
-SELECT ID, PW, NAME, TEL, EMAIL, SCOREID, KOR, ENG, MAT, DELCHECK, GRADE
+SELECT *
 FROM MEMBERLISTVIEW;
 /*
-NAME    ID          PW      TEL             EMAIL         GRADE 국 영 수 DEL  GRADE
-superman	=o???	김태민	010-1111-1111	ktm@test.com	7	90	80	70	1	0
-superwoman	??{	정미경	010-2222-2222	jmk@test.com	2	50	50	50	1	1
+NAME    ID          PW      TEL             EMAIL
+김태민	superman	=o???	010-1111-1111	ktm@test.com
+정미경	superwoman	??{	010-2222-2222	jmk@test.com
 */
 
-
-SELECT ID, PW, NAME, TEL, EMAIL, SCOREID, KOR, ENG, MAT, DELCHECK, GRADE FROM MEMBERLISTVIEW
-;
-
-
-select id, pw, name, tel, email, scoreid, kor, eng, mat, delcheck, grade from memberlistview
-;
--- 학생이 조회하는 전체 정보 조회 ★ 쿼리문 구성
-SELECT ID, PW, NAME, TEL, EMAIL, SCOREID, KOR, ENG, MAT, GRADE
-FROM MEMBERLISTVIEW;
-
-
-DESC MEMBERLISTVIEW;
-
--- 학생 정보 수정 쿼리문
-
-
-UPDATE MEMBERLIST
-SET PW = CRYPTPACK.ENCRYPT('2345678','2345678'), NAME = '박태민', TEL='010-0000-0000', EMAIL = 'KTM@test.com'
-WHERE ID = 'superman';
-
--- 학생 정보 수정★ 쿼리문 한줄 구성
-UPDATE MEMBERLIST SET PW = CRYPTPACK.ENCRYPT('2345678','2345678'), NAME = '박태민', TEL='010-0000-0000', EMAIL = 'KTM@test.com' WHERE ID = 'superman'
-;
+CREATE OR REPLACE VIEW MEMBERRECODEVIEW
+AS 
+SELECT R.SCOREID 
+    , R.KOR AS KOR
+    , R.ENG AS ENG
+    , R.MAT AS MAT
+    , ( SELECT R.ID
+        FROM MEMBERLIST 
+        WHERE ID=R.ID) AS ID
+FROM MEMBERRECODE R;
 
 
 SELECT *
-FROM MEMBERLIST;
+FROM MEMBERRECODEVIEW;
+/*
+SCOREID   KOR   ENG MAT  ID
+1	      90	    80	70	superman
+2	      50    	50	50	superwoman
+*/
+
+--○ 커밋
+COMMIT;
+--==>> 커밋 완료.
 
 
-SELECT *
+
+-- 학생 정보 삭제 쿼리문
+
+DELETE
 FROM MEMBERLIST
-WHERE ID = 'superman';
+WHERE ID = 'superwoman';
 
--- 학생 정보 삭제★ 쿼리문
-DELETE FROM MEMBERLIST WHERE ID = 'superman'
+
+DELETE FROM MEMBERLIST WHERE ID = 'superwoman'
 ;
 
 
--- 관리자가 조회하는 직원 정보 전체 쿼리문  
+-- 관리자가 조회하는 직원 정보 전체 쿼리문 
 SELECT M.ID, M.PW, M.NAME, M.TEL, M.EMAIL,R.SCOREID, R.KOR, R.ENG, R.MAT
 FROM MEMBERLIST M JOIN MEMBERRECODE R
 ON M.ID=R.ID;
@@ -209,14 +186,17 @@ ON M.ID=R.ID;
 
 
 
+SELECT *
+FROM LISTVIEW;
+
 , ( SELECT COUNT(*)
         FROM EMPLOYEE
         WHERE REGIONID = R.REGIONID) AS DELCHECK
 
 
 
---○ 학생 정보 완전 전체 조회 퀴리문 구성 ★
---  (특정 학생 데이터 삭제 가능여부 확인) 6개의 PROPERTY
+--○ 학생 정보 완전 전체 조회 퀴리문 구성
+--  (특정 학생 데이터 삭제 가능여부 확인) 10개의 PROPERTY
 SELECT M.ID AS ID 
     , M.PW AS PW
     , M.NAME AS NAME
@@ -237,10 +217,9 @@ SELECT M.ID AS ID
     ,( SELECT COUNT(*)
         FROM MEMBERRECODE
         WHERE ID=M.ID) AS DELCHECK
-    , M.GRADE AS GRADE
 FROM MEMBERLIST M;
 --> 『김태민, 정미경』의 학생 정보는 삭제가 불가능한 데이터이며,
--- 그 외 나머지 학생 정보는 삭제가 가능한 데이터임을 판별할 수 있또록 구성한 쿼리문
+-- 그 외 나머지 학생 정보는 삭제가 가능한 데이터임을 판별할 수 있도록 구성한 쿼리문
 /*
 superman	=o???	김태민	010-1111-1111	ktm@test.com	1
 superwoman	??{	정미경	010-2222-2222	jmk@test.com	1
@@ -253,51 +232,7 @@ SELECT COUNT(*)
     FROM MEMBERRECODE
     WHERE ID='superman';
     
-
---○ 학생 정보 완전 전체 조회 퀴리문 구성 ★
---  (특정 학생 데이터 삭제 가능여부 확인) 11개의 PROPERTY
-CREATE OR REPLACE VIEW MEMBERLISTVIEW
-AS 
-SELECT M.ID AS ID 
-    , M.PW AS PW
-    , M.NAME AS NAME
-    , M.TEL AS TEL
-    , M.EMAIL AS EMAIL
-    ,(SELECT SCOREID
-        FROM MEMBERRECODE
-        WHERE ID=M.ID) AS SCOREID
-    ,(SELECT KOR
-        FROM MEMBERRECODE
-        WHERE ID=M.ID) AS KOR
-    ,(SELECT ENG
-        FROM MEMBERRECODE
-        WHERE ID=M.ID) AS ENG
-    ,(SELECT MAT
-        FROM MEMBERRECODE
-        WHERE ID=M.ID) AS MAT
-    ,( SELECT COUNT(*)
-        FROM MEMBERRECODE
-        WHERE ID=M.ID) AS DELCHECK
-    , M.GRADE AS GRADE
-FROM MEMBERLIST M;
-
-
-SELECT ID, PW, NAME, TEL, EMAIL, SCOREID, KOR, ENG, MAT, DELCHECK, GRADE
-FROM MEMBERLISTVIEW
-ORDER BY NAME;
-
---> 한 줄 구성
-SELECT ID, PW, NAME, TEL, EMAIL, SCOREID, KOR, ENG, MAT, DELCHECK, GRADE FROM MEMBERLISTVIEW ORDER BY NAME
-;
-
-/*
-superman	=o???	김태민	010-1111-1111	ktm@test.com	4	90	80	70	1	0
-superwoman	??{	정미경	010-2222-2222	jmk@test.com	2	50	50	50	1	1
-*/
-
-
-SELECT *
-FROM MEMBERRECODE;
+    
     
 -- 학생 성적 정보 ★삭제 쿼리문
 DELETE
@@ -320,75 +255,37 @@ WHERE ID='superman';
 UPDATE MEMBERRECODE SET KOR=60, ENG=60, MAT=60 WHERE ID='superman'
 ;
 
+
 ROLLBACK;
 
+--
+SELECT * 
+FROM MEMBERRECODE;
 
 
--- GRADE 컬럼추가
+-- MEMBERRECODE 에서 GRADE 컬럼 삭제
+ALTER TABLE MEMBERRECODE
+DROP COLUMN GRADE;
 
---  GRADE 컬럼 추가 → 기본값을 1(일반사원)로 구성 ★★
-ALTER TABLE MEMBERLIST
-MODIFY GRADE NUMBER(1) DEFAULT 1;
---==>> Table EMPLOYEE이(가) 변경되었습니다.
 
 SELECT *
-FROM MEMBERLISTVIEW;
-
-DESC MEMBERLIST;
-
-CREATE OR REPLACE VIEW MEMBERRECODEVIEW
-AS 
-SELECT R.SCOREID 
-    , R.KOR AS KOR
-    , R.ENG AS ENG
-    , R.MAT AS MAT
-    , ( SELECT R.ID
-        FROM MEMBERLIST 
-        WHERE ID=R.ID) AS ID
-    , ( SELECT NAME
-        FROM MEMBERLIST
-        WHERE ID=R.ID) AS NAME
-FROM MEMBERRECODE R;
-
-
--- 학생 성적 정보 전체 ★조회 쿼리문
-SELECT NAME, ID, SCOREID, KOR, ENG, MAT
-FROM MEMBERRECODEVIEW
-ORDER BY NAME;
-/*
-SCOREID   KOR   ENG MAT  ID
-1	      90	80	70	superman
-2	      50	50	50	superwoman
-*/
-
-
-SELECT NAME, ID, SCOREID, KOR, ENG, MAT FROM MEMBERRECODEVIEW ORDER BY NAME
-;
-
---○ 커밋
-COMMIT;
---==>> 커밋 완료.
-
-
-SELECT NAME
-FROM MEMBERLIST
-WHERE ID = 'superman'
- AND PW = CRYPTPACK.ENCRYPT('1234567', '1234567');
---==>> 김태민
---> 일반사원으로 로그인 성공~!!
-
-SELECT NAME
-FROM MEMBERLIST
-WHERE ID = 'superman'
- AND PW = CRYPTPACK.ENCRYPT('2234567', '2234567');
---==>> 조회 결과 없음
---> 일반사원으로 로그인 실패 ~!!! 비번 틀림
+FROM MEMBERRECODE;
 
 
 
--- 일반사원 로그인 퀴리문 한 줄 구성
-SELECT NAME FROM MEMBERLIST WHERE ID = '문자열ID' AND PW = CRYPTPACK.ENCRYPT('문자열PW', '문자열PW')
-;
+
+SELECT *
+FROM MEMBERLIST;
+
+
+ALTER TABLE MEMBERLIST
+ADD GRADE NUMBER(1) DEFAULT 1;
+--==>> Table MEMBERLIST이(가) 변경되었습니다.
+
+-- 관리자로 id superman 을 수정하는 쿼리문 구성
+UPDATE MEMBERLIST
+SET GRADE = 0
+WHERE ID = 'superman';
 
 
 
@@ -397,40 +294,52 @@ SELECT NAME FROM MEMBERLIST WHERE ID = '문자열ID' AND PW = CRYPTPACK.ENCRYPT('문
 -- 사원번호, 주민번호뒷자리, 등급
 SELECT NAME
 FROM MEMBERLIST
-WHERE ID = 아이디
- AND pW = 패스워드
+WHERE ID = 'superman'
+ AND PW =CRYPTPACK.ENCRYPT('1234567', '1234567')
  AND GRADE = 0;
-
+--==>> 관리자로 로그인 성공~!!!
+ 
 SELECT NAME
 FROM MEMBERLIST
 WHERE ID = 'superman'
- AND PW = CRYPTPACK.ENCRYPT('2345678', '2345678')
- AND GRADE = 0;
---==>> 조회결과 없음
---> 관리자로 로그인 실패~!!
+ AND PW =CRYPTPACK.ENCRYPT('JAVA002', 'JAVA002')
+ AND GRADE = 0; 
+--==>> 조회 결과 없음
+--> 관리자로 로그인 실패~!!!
 
-SELECT NAME
+
+SELECT NAME FROM MEMBERLIST WHERE ID = '문자열ID' AND PW =CRYPTPACK.ENCRYPT('문자열 PW', '문자열 PW') AND GRADE = 0
+; 
+
+-- 비밀번호가 맞을경우1 아니면 0 
+SELECT COUNT(*)AS COUNT
 FROM MEMBERLIST
-WHERE ID = 'superwoman'
- AND PW = CRYPTPACK.ENCRYPT('java002$', 'java002$')
- AND GRADE = 1;
---=>> 정미경
---> 관리자로 로그인 성공~!!
+WHERE ID = 'superman'
+AND PW = CRYPTPACK.ENCRYPT('2234565', '2234565');
+--==>> 0
+
+--> 한 줄 구성
+SELECT COUNT(*)AS COUNT FROM MEMBERLIST WHERE ID = 'superman' AND PW = CRYPTPACK.ENCRYPT('2234565', '2234565')
+;
 
 
--->관리자 로그인 쿼리문 한 줄 구성
-SELECT NAME FROM MEMBERLIST WHERE ID = 'superwoman' AND PW = CRYPTPACK.ENCRYPT('java002$', 'java002$') AND GRADE = 1
+SELECT COUNT(*)AS COUNT
+FROM MEMBERLIST
+WHERE ID = 'superman'
+AND PW = CRYPTPACK.ENCRYPT('1234567', '1234567');
+--==>> 1
+--> 한 줄 구성
+SELECT COUNT(*)AS COUNT FROM MEMBERLIST WHERE ID = 'superman' AND PW = CRYPTPACK.ENCRYPT('1234567', '1234567')
 ;
 
 
 
-DELETE
-FROM MEMBERRECODEVIEW
-WHERE SCOREID = 2;
 
 
-SELECT *
-FROM MEMBERRECODE;
 
 
-ROLLBACK;
+
+
+
+
+
